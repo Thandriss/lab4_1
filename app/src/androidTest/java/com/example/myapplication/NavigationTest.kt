@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressBackUnconditionally
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -41,11 +42,10 @@ class NavigationTest {
         pressBackUnconditionally()
         Assert.assertTrue(activityRule.scenario.state.isAtLeast(Lifecycle.State.DESTROYED))
     }
-
     @Test
     fun FirstTest2() {
         onView(withId(R.id.bnToSecond)).perform(click())
-        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(doesNotExist())
         pressBack()
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
     }
@@ -54,9 +54,7 @@ class NavigationTest {
     fun FirstTest3() {
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.bnToThird)).perform(click())
-        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
-        pressBack()
-        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment2)).check(doesNotExist())
     }
 
     @Test
@@ -121,7 +119,7 @@ class NavigationTest {
     }
 
     @Test
-    fun ThirdTest1() {
+    fun ThirdTest1() {// [htym
         onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
         rotLand()
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
