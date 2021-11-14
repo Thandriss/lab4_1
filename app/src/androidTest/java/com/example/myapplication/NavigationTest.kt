@@ -9,8 +9,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressBackUnconditionally
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert
@@ -32,16 +31,17 @@ class NavigationTest {
     fun FirstTest1() {
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.bnToThird)).perform(click())
-        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
-        pressBack()
-        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        onView(withId(R.id.bnToSecond)).perform(click())
         pressBack()
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
-        openAbout()
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
         pressBackUnconditionally()
         Assert.assertTrue(activityRule.scenario.state.isAtLeast(Lifecycle.State.DESTROYED))
     }
+
     @Test
     fun FirstTest2() {
         onView(withId(R.id.bnToSecond)).perform(click())
@@ -54,7 +54,24 @@ class NavigationTest {
     fun FirstTest3() {
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.bnToThird)).perform(click())
+        openAbout()
+        pressBack()
         onView(withId(R.id.fragment2)).check(doesNotExist())
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        pressBack()
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun FirstTest4() {
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).perform(click())
+        openAbout()
+        pressBack()
+        onView(withId(R.id.fragment2)).check(doesNotExist())
+        onView(withId(R.id.fragment3)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -63,22 +80,16 @@ class NavigationTest {
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
-        openAbout()
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_host_fragment_activity_main)).check(matches(isDisplayed()))
     }
 
     @Test
     fun SecondTest2() {
         onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
-        openAbout()
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
-        pressBack()
         onView(withId(R.id.bnToSecond)).perform(click())
         onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
-        openAbout()
-        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
-        pressBack()
+        onView(withId(R.id.bnToFirst)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -119,10 +130,65 @@ class NavigationTest {
     }
 
     @Test
-    fun ThirdTest1() {// [htym
+    fun SecondTest5() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        openAbout()
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun SecondTest6() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_view)).perform(click())
+        onView(withId(R.id.activity_about)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun SecondTest7() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).perform(click())
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun SecondTest8() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.bnToThird)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToFirst)).perform(click())
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun SecondTest9() {
+        onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.bnToSecond)).perform(click())
+        onView(withId(R.id.fragment2)).check(matches(isDisplayed()))
+        onView(withContentDescription("Navigate up")).perform(click())
+        onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun ThirdTest1() {
         onView(withId(R.id.activity_main)).check(matches(isDisplayed()))
         rotLand()
         onView(withId(R.id.fragment1)).check(matches(isDisplayed()))
+        onView(withId(R.id.fragment3)).check(doesNotExist())
+        onView(withId(R.id.fragment2)).check(doesNotExist())
     }
 
     @Test
